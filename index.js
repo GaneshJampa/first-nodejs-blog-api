@@ -59,8 +59,43 @@ app.get('/posts', function(req, res) {
 
 // Tasks for you
 // 1. Create API to get details of a single Post
+app.get('/posts/:id', function(req, res) {
+  Post.findById(req.params.id, function(error, singlepost) {
+    if(error) {
+      // send error response
+      res.status(422).send({ error: 'Unable to fetch the post'})
+    } else {
+      // send success response
+      res.status(200).send(singlepost)
+    }
+  })
+})
+
 // 2. Create API to update a Post
+app.put('/posts/:id', function(req, res) {
+  Post.findByIdAndUpdate(req.params.id, req.body, function(error, oldpost) {
+    if(error) {
+      // send error response
+      res.status(422).send({ error: 'Unable to update the Post '})
+    } else {
+      // send success response
+      res.status(200).send(oldpost)
+    }
+  })
+})
+
 // 3. Create API to delete a Post
+app.delete('/posts/:id', function(req, res) {
+  Post.findByIdAndDelete(req.params.id, function(error, deletedpost) {
+    if(error) {
+      // send error response
+      res.status(422).send({ error: 'Unable to delete the post'})
+    } else {
+      // send success response
+      res.status(200).send(deletedpost)
+    }
+  })
+})
 
 app.listen(3001, function() {
   console.log('Server is running at port 3001....')
